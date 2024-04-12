@@ -1,0 +1,23 @@
+name: AdvancementPlugin
+version: '1.0'
+main: 'plugin.AdvancementPlugin'
+api-version: '1.20'
+commands:
+  advancement:
+    description: Shows missing advancements for a player or missing criteria for a specific advancement
+    aliases: [adv, advance]
+    usage: "Usage /<command> all \n
+    Usage /<command> all details \n
+    Usage /<command> AdventuringTime \n
+    Usage /<command> BalancedDiet \n
+    Usage /<command> BredAllAnimals \n
+    Usage /<command> CompleteCatalogue \n
+    Usage /<command> MonsterHunter \n
+    Usage /<command> SmithingWithStyle \n"
+    permission: demon.permission.advancement
+permissions:
+  demon.permission.advancement:
+    description: Allows advancement command
+    default: true
+
+

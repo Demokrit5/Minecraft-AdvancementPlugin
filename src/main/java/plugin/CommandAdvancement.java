@@ -24,8 +24,9 @@ public class CommandAdvancement implements CommandExecutor {
         Iterator<Advancement> iterator = Bukkit.advancementIterator();
         while (iterator.hasNext()) {
             Advancement adv = iterator.next();
-            this.allAdvancements.add(adv);
-            System.out.println(adv.getDisplay().getTitle());
+            if(!adv.getKey().getKey().contains("recipe")) {
+                this.allAdvancements.add(adv);
+            }
         }
     }
 
@@ -38,14 +39,15 @@ public class CommandAdvancement implements CommandExecutor {
             } else {
                 StringBuilder message = new StringBuilder();
                 String arg = args[0];
+                AdvancementProgress progress;
                 switch (arg) {
                     case "all":
                         if(args.length > 1) {
                             if("details".equals(args[1])) {
                                 for(Advancement adv : this.allAdvancements) {
-                                    AdvancementProgress progress = player.getAdvancementProgress(adv);
+                                    progress = player.getAdvancementProgress(adv);
                                     if(!progress.isDone()) {
-                                        message.append(adv.getDisplay().getTitle() + "\n");
+                                        message.append(adv.getKey().getKey() + "\n");
                                         for (String criteria : progress.getRemainingCriteria()) {
                                             String criteriaMessage = "    " + criteria + "\n";
                                             message.append(criteriaMessage);
@@ -58,13 +60,66 @@ public class CommandAdvancement implements CommandExecutor {
                         } else {
                             for(Advancement adv : this.allAdvancements) {
                                 if(!player.getAdvancementProgress(adv).isDone()) {
-                                    message.append(adv.getDisplay().getTitle()).append("\n");
+                                    message.append(adv.getKey().getKey()).append("\n");
                                 }
                             }
                         }
                         break;
+                    case "AdventuringTime":
+                        Advancement adventuringTime = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:adventure/adventuring_time"));
+                        progress = player.getAdvancementProgress(adventuringTime);
+                        message.append(adventuringTime.getKey().getKey() + "\n");
+                        for (String criteria : progress.getRemainingCriteria()) {
+                            criteria.split(":");
+                            String criteriaMessage = "    " + criteria.split(":")[1] + "\n";
+                            message.append(criteriaMessage);
+                        }
+                        break;
+                    case "BalancedDiet":
+                        Advancement balancedDiet = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:husbandry/balanced_diet"));
+                        progress = player.getAdvancementProgress(balancedDiet);
+                        message.append(balancedDiet.getKey().getKey() + "\n");
+                        for (String criteria : progress.getRemainingCriteria()) {
+                            String criteriaMessage = "    " + criteria + "\n";
+                            message.append(criteriaMessage);
+                        }
+                        break;
+                    case "BredAllAnimals":
+                        Advancement bredAllAnimals = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:husbandry/bred_all_animals"));
+                        progress = player.getAdvancementProgress(bredAllAnimals);
+                        message.append(bredAllAnimals.getKey().getKey() + "\n");
+                        for (String criteria : progress.getRemainingCriteria()) {
+                            String criteriaMessage = "    " + criteria.split(":")[1] + "\n";
+                            message.append(criteriaMessage);
+                        }
+                        break;
+                    case "CompleteCatalogue":
+                        Advancement completeCatalogue = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:husbandry/complete_catalogue"));
+                        progress = player.getAdvancementProgress(completeCatalogue);
+                        message.append(completeCatalogue.getKey().getKey() + "\n");
+                        for (String criteria : progress.getRemainingCriteria()) {
+                            String criteriaMessage = "    " + criteria.split(":")[1] + "\n";
+                            message.append(criteriaMessage);
+                        }
+                        break;
                     case "MonsterHunter":
-                        Advancement monsterHunter = this.allAdvancements.stream().filter(a -> a.getKey())
+                        Advancement monsterHunter = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:adventure/kill_a_mob"));
+                        progress = player.getAdvancementProgress(monsterHunter);
+                        message.append(monsterHunter.getKey().getKey() + "\n");
+                        for (String criteria : progress.getRemainingCriteria()) {
+                            String criteriaMessage = "    " + criteria.split(":")[1] + "\n";
+                            message.append(criteriaMessage);
+                        }
+                        break;
+                    case "SmithingWithStyle":
+                        Advancement smithingWithStyle = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:adventure/trim_with_all_exclusive_armor_patterns"));
+                        progress = player.getAdvancementProgress(smithingWithStyle);
+                        message.append(smithingWithStyle.getKey().getKey() + "\n");
+                        for (String criteria : progress.getRemainingCriteria()) {
+                            String criteriaMessage = "    " + criteria.split(":")[1] + "\n";
+                            message.append(criteriaMessage);
+                        }
+                        break;
                     default:
                         return false;
                 }
