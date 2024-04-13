@@ -103,7 +103,7 @@ public class CommandAdvancement implements CommandExecutor {
                         }
                         break;
                     case "MonsterHunter":
-                        Advancement monsterHunter = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:adventure/kill_a_mob"));
+                        Advancement monsterHunter = Bukkit.getAdvancement(NamespacedKey.fromString("minecraft:adventure/kill_all_mobs"));
                         progress = player.getAdvancementProgress(monsterHunter);
                         message.append(monsterHunter.getKey().getKey() + "\n");
                         for (String criteria : progress.getRemainingCriteria()) {
